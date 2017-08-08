@@ -1,0 +1,4 @@
+/vendor
+.phpintel/
+coverage.clover
+build/

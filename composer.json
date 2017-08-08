@@ -1,0 +1,32 @@
+{
+    "name": "clivern/imap",
+    "type": "library",
+    "description": "Access Mailbox Using PHP IMAP",
+    "keywords": ["clivern", "imap"],
+    "license": "MIT",
+    "type": "project",
+    "homepage": "https://github.com/clivern/imap",
+    "authors": [
+        {
+            "name": "Clivern",
+            "email": "hello@clivern.com",
+            "homepage": "http://clivern.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clivern\\Imap\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Clivern\\Imap\\": "tests"
+        }
+    }
+}
