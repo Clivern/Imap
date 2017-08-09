@@ -117,7 +117,6 @@ class Connection
 			}
 		}
 
-		var_dump("dd");
 		return false;
 	}
 }
