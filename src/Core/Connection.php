@@ -91,6 +91,16 @@ class Connection
 	}
 
 	/**
+	 * Get Server
+	 *
+	 * @return string
+	 */
+	public function getServer()
+	{
+		return $this->server;
+	}
+
+	/**
 	 * Check Connection
 	 *
 	 * @return boolean
