@@ -18,11 +18,34 @@ use Clivern\Imap\Core\Tools;
 class MailBox
 {
 
+	/**
+	 * @var Connection
+	 */
 	protected $connection;
+
+	/**
+	 * @var Search
+	 */
 	protected $search;
+
+	/**
+	 * @var MessageIterator
+	 */
 	protected $message_iterator;
+
+	/**
+	 * @var Tools
+	 */
 	protected $tools;
 
+	/**
+	 * MailBox Constructor
+	 *
+	 * @param Connection      $connection
+	 * @param Search          $search
+	 * @param MessageIterator $message_iterator
+	 * @param Tools           $tools
+	 */
 	public function __construct(Connection $connection, Search $search, MessageIterator $message_iterator, Tools $tools)
 	{
 		$this->connection = $connection;
@@ -31,7 +54,11 @@ class MailBox
 		$this->tools = $tools
 	}
 
-
+	/**
+	 * Get Message Iterator
+	 *
+	 * @return MessageIterator
+	 */
 	public function getMessageIterator()
 	{
 		return $this->message_iterator;
