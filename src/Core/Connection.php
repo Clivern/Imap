@@ -182,6 +182,24 @@ class Connection
 		];
 	}
 
+  	/**
+  	 * Check MailBox Data
+  	 *
+  	 * @return array
+  	 */
+  	public function check()
+  	{
+  		$data = imap_check($this->stream);
+
+  		return [
+  			'date' => (isset($data->Date)) ? $data->Date : false,
+  			'driver' => (isset($data->Driver)) ? $data->Driver : false,
+  			'mailbox' => (isset($data->Mailbox)) ? $data->Mailbox : false,
+  			'nmsgs' => (isset($data->Nmsgs)) ? $data->Nmsgs : false,
+  			'recent' => (isset($data->Recent)) ? $data->Recent : false
+  		];
+  	}
+
 	/**
 	 * Ping Connection
 	 *
