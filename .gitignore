@@ -2,3 +2,4 @@
 .phpintel/
 coverage.clover
 build/
+index.php
