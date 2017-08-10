@@ -6,7 +6,7 @@
 namespace Clivern\Imap;
 
 use Clivern\Imap\Core\Connection;
-use Clivern\Imap\Core\Search;
+use Clivern\Imap\Core\Folder;
 use Clivern\Imap\Core\MessageIterator;
 use Clivern\Imap\Core\Tools;
 
@@ -24,9 +24,9 @@ class MailBox
 	protected $connection;
 
 	/**
-	 * @var Search
+	 * @var Folder
 	 */
-	protected $search;
+	protected $folder;
 
 	/**
 	 * @var MessageIterator
@@ -42,14 +42,14 @@ class MailBox
 	 * MailBox Constructor
 	 *
 	 * @param Connection      $connection
-	 * @param Search          $search
+	 * @param Folder          $folder
 	 * @param MessageIterator $message_iterator
 	 * @param Tools           $tools
 	 */
-	public function __construct(Connection $connection, Search $search, MessageIterator $message_iterator, Tools $tools)
+	public function __construct(Connection $connection, Folder $folder, MessageIterator $message_iterator, Tools $tools)
 	{
 		$this->connection = $connection;
-		$this->search = $search;
+		$this->folder = $folder;
 		$this->message_iterator = $message_iterator;
 		$this->tools = $tools
 	}
