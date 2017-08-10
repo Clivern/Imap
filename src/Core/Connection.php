@@ -14,6 +14,7 @@ use Clivern\Imap\Core\Exception\ConnectionError;
  */
 class Connection
 {
+
 	/**
 	 * @var string
 	 */
@@ -48,6 +49,9 @@ class Connection
 	 * @var mixed
 	 */
 	protected $stream;
+
+	protected $timeout_type;
+	protected $timeout;
 
 	/**
 	 * Class Constructor
@@ -87,6 +91,30 @@ class Connection
 		return $this;
 	}
 
+	public function reconnect($folder)
+	{
+		try {
+			imap_reopen($this->stream, "{" . $this->server . ":" . $this->port . $this->flag . "}" . $folder);
+		} catch (\Exception $e) {
+			throw new ConnectionError("Error! Connecting to Imap Email.");
+		}
+	}
+
+	/**
+	 * Set Timeout
+	 *
+	 * @param string $timeout_type it may be IMAP_OPENTIMEOUT, IMAP_READTIMEOUT, IMAP_WRITETIMEOUT, or IMAP_CLOSETIMEOUT
+	 * @param integer $timeout time in seconds or -1
+	 * @return void
+	 */
+	public function setTimeout($timeout_type, $timeout)
+	{
+		$this->timeout_type = $timeout_type;
+		$this->timeout = $timeout;
+
+		return (boolean) imap_timeout($timeout_type, $timeout);
+	}
+
 	/**
 	 * Get Stream
 	 *
@@ -115,6 +143,89 @@ class Connection
 	public function checkConnection()
 	{
 		return (!is_null($this->stream) && imap_ping($this->stream));
+	}
+
+	/**
+	 * Get Quota
+	 *
+	 * @param  string $folder
+	 * @return array
+	 */
+	public function getQuota($folder = 'INBOX')
+	{
+		$data = imap_get_quotaroot($this->stream, $folder);
+
+		return [
+			'usage' => (isset($data['usage'])) ? $data['usage'] : false,
+			'limit' => (isset($data['limit'])) ? $data['limit'] : false
+		];
+	}
+
+	/**
+	 * Get Status
+	 *
+	 * @param  string $folder
+	 * @param  string $flag
+	 * @return array
+	 */
+	public function getStatus($folder = 'INBOX', $flag = SA_ALL)
+	{
+		$data = imap_status($this->stream, "{" . $this->server . "}" . $folder, $flag);
+
+		return [
+			'flags' => (isset($data->flags)) ? $data->flags : false,
+			'messages' => (isset($data->messages)) ? $data->messages : false,
+			'recent' => (isset($data->recent)) ? $data->recent : false,
+			'unseen' => (isset($data->unseen)) ? $data->unseen : false,
+			'uidnext' => (isset($data->uidnext)) ? $data->uidnext : false,
+			'uidvalidity' => (isset($data->uidvalidity)) ? $data->uidvalidity : false
+		];
+	}
+
+	/**
+	 * Ping Connection
+	 *
+	 * @return boolean
+	 */
+	public function ping()
+	{
+		return (boolean) imap_ping($this->stream);
+	}
+
+	/**
+	 * Get Errors
+	 *
+	 * @return array
+	 */
+	public function getErrors()
+	{
+		$errors = imap_errors();
+
+		return (is_array($errors)) ? $errors : [];
+	}
+
+	/**
+	 * Get Alerts
+	 *
+	 * @return array
+	 */
+	public function getAlerts()
+	{
+		$alerts = imap_alerts();
+
+		return (is_array($alerts)) ? $alerts : [];
+	}
+
+	/**
+	 * Get Last Error
+	 *
+	 * @return string
+	 */
+	public function getLastError()
+	{
+		$error = imap_last_error();
+
+		return !(empty($error)) ? $error : '';
 	}
 
 	/**
