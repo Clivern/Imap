@@ -50,7 +50,14 @@ class Connection
 	 */
 	protected $stream;
 
+	/**
+	 * @var mixed
+	 */
 	protected $timeout_type;
+
+	/**
+	 * @var mixed
+	 */
 	protected $timeout;
 
 	/**
