@@ -4,6 +4,7 @@
  */
 
 namespace Clivern\Imap\Core;
+
 use Clivern\Imap\Core\Connection;
 
 /**
@@ -22,12 +23,16 @@ class Stats
 
 	public function getQuota($folder = 'INBOX')
 	{
-		return imap_get_quotaroot($this->connection->getStream(), $folder);
+		$data = imap_get_quotaroot($this->connection->getStream(), $folder);
+
+		return $data;
 	}
 
 
 	public function getStatus($folder = 'INBOX', $flag = SA_ALL)
 	{
-		return imap_status($this->connection->getStream(), "{" . $this->connection->getServer() . "}" . $folder, $flag);
+		$data = imap_status($this->connection->getStream(), "{" . $this->connection->getServer() . "}" . $folder, $flag);
+
+		return $data;
 	}
 }
