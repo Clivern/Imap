@@ -75,7 +75,7 @@ class MailBox
      * Get message ids
      *
      * @param Search $search
-     * @return MessageIterator|Message[]
+     * @return MessageIterator
      */
     public function getMessages(Search $search = null)
     {

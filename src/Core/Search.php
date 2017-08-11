@@ -5,6 +5,8 @@
 
 namespace Clivern\Imap\Core;
 
+use Clivern\Imap\Core\Search\Contract\Condition;
+
 /**
  * Search Class
  *
@@ -21,12 +23,12 @@ class Search
     /**
      * Add Condition
      *
-     * @param string $condition
+     * @param Condition $condition
      * @return Search
      */
-    public function addCondition($condition)
+    public function addCondition(Condition $condition)
     {
-        $this->conditions[] = $condition;
+        $this->conditions[] = (string) $condition;
 
         return $this;
     }

@@ -8,12 +8,14 @@ class SearchTest extends TestCase
     public function testConditionBuilder()
     {
         $search = new \Clivern\Imap\Core\Search();
-        $search->addCondition('RECENT')->addCondition('BCC "string"')->addCondition('NEW');
+        $search->addCondition(new \Clivern\Imap\Core\Search\Condition\To("hello@clivern.com"))
+               ->addCondition(new \Clivern\Imap\Core\Search\Condition\BCC("hello@clivern.com"))
+               ->addCondition(new \Clivern\Imap\Core\Search\Condition\NewFlag());
         $this->assertEquals($search->getConditions(), [
-            'RECENT',
-            'BCC "string"',
+            'TO "hello@clivern.com"',
+            'BCC "hello@clivern.com"',
             'NEW'
         ]);
-        $this->assertEquals((string) $search, 'RECENT BCC "string" NEW');
+        $this->assertEquals((string) $search, 'TO "hello@clivern.com" BCC "hello@clivern.com" NEW');
     }
 }
