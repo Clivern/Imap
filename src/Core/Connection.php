@@ -5,7 +5,7 @@
 
 namespace Clivern\Imap\Core;
 
-use Clivern\Imap\Core\Exception\ConnectionError;
+use Clivern\Imap\Core\Exception\AuthenticationFailedException;
 
 /**
  * Connection Class
@@ -85,14 +85,14 @@ class Connection
      * Connect to IMAP Email
      *
      * @return Connection
-     * @throws ConnectionError
+     * @throws AuthenticationFailedException
      */
     public function connect()
     {
         try {
             $this->stream = imap_open("{" . $this->server . ":" . $this->port . $this->flag . "}" . $this->folder, $this->email, $this->password);
         } catch (\Exception $e) {
-            throw new ConnectionError("Error! Connecting to Imap Email.");
+            throw new AuthenticationFailedException("Error! Connecting to Imap Email.");
         }
 
         return $this;
@@ -103,7 +103,7 @@ class Connection
         try {
             imap_reopen($this->stream, "{" . $this->server . ":" . $this->port . $this->flag . "}" . $folder);
         } catch (\Exception $e) {
-            throw new ConnectionError("Error! Connecting to Imap Email.");
+            throw new AuthenticationFailedException("Error! Connecting to Imap Email.");
         }
     }
 
