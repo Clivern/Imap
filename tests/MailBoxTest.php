@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MailBoxTest extends TestCase
 {
-	public function testGet()
-	{
-		$this->assertTrue(true);
-	}
+    public function testGet()
+    {
+        $this->assertTrue(true);
+    }
 }
