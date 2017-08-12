@@ -210,7 +210,7 @@ class Message
      */
     public function fetchStructure($options = 0)
     {
-        $structure = imap_fetchstructure($connection->getStream(), $this->msg_number, $options);
+        $structure = imap_fetchstructure($this->connection->getStream(), $this->msg_number, $options);
         return $structure;
     }
 }
