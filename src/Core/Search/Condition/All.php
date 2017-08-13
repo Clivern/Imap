@@ -14,13 +14,13 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class All implements Condition
 {
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "ALL";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "ALL";
+    }
 }

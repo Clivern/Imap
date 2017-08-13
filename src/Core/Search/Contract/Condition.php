@@ -12,5 +12,5 @@ namespace Clivern\Imap\Core\Search\Contract;
  */
 interface Condition
 {
-	public function __toString();
+    public function __toString();
 }

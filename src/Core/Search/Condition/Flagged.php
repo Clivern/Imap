@@ -14,13 +14,13 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class Flagged implements Condition
 {
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "FLAGGED";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "FLAGGED";
+    }
 }

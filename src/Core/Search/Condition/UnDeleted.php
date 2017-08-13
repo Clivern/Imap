@@ -14,13 +14,13 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class UnDeleted implements Condition
 {
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "UNDELETED";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "UNDELETED";
+    }
 }

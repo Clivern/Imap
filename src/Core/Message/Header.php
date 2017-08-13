@@ -15,89 +15,89 @@ use Clivern\Imap\Core\Connection;
 class Header
 {
 
-	/**
-	 * @var Connection
-	 */
-	protected $connection;
+    /**
+     * @var Connection
+     */
+    protected $connection;
 
-	/**
-	 * @var integer
-	 */
-	protected $message_number;
+    /**
+     * @var integer
+     */
+    protected $message_number;
 
-	/**
-	 * @var integer
-	 */
-	protected $message_uid;
+    /**
+     * @var integer
+     */
+    protected $message_uid;
 
-	/**
-	 * @var array
-	 */
-	protected $header = [];
+    /**
+     * @var array
+     */
+    protected $header = [];
 
 
-	/**
-	 * Class Constructor
-	 *
-	 * @param Connection $connection
-	 */
-	public function __construct(Connection $connection)
-	{
-		$this->connection = $connection;
-	}
+    /**
+     * Class Constructor
+     *
+     * @param Connection $connection
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
-	/**
-	 * Config Message
-	 *
-	 * @param integer $message_number
-	 * @param integer $message_uid
-	 * @return Header
-	 */
-	public function config($message_number, $message_uid, $options = 0)
-	{
-		if( !empty($this->header) ){
-			return $this;
-		}
+    /**
+     * Config Message
+     *
+     * @param integer $message_number
+     * @param integer $message_uid
+     * @return Header
+     */
+    public function config($message_number, $message_uid, $options = 0)
+    {
+        if( !empty($this->header) ){
+            return $this;
+        }
 
-		$this->message_number = $message_number;
-		$this->message_uid = $message_uid;
-		$this->load();
+        $this->message_number = $message_number;
+        $this->message_uid = $message_uid;
+        $this->load();
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get From Header
-	 *
-	 * @param  string  $key
-	 * @param  boolean $default
-	 * @return mixed
-	 */
-	public function get($key, $default = false)
-	{
-		return (isset($this->header[strtolower($key)])) ? $this->header[strtolower($key)] : $default;
-	}
+    /**
+     * Get From Header
+     *
+     * @param  string  $key
+     * @param  boolean $default
+     * @return mixed
+     */
+    public function get($key, $default = false)
+    {
+        return (isset($this->header[strtolower($key)])) ? $this->header[strtolower($key)] : $default;
+    }
 
-	/**
-	 * Check if header has key
-	 *
-	 * @param  string  $key
-	 * @return boolean
-	 */
-	public function has($key)
-	{
-		return (isset($this->header[strtolower($key)]));
-	}
+    /**
+     * Check if header has key
+     *
+     * @param  string  $key
+     * @return boolean
+     */
+    public function has($key)
+    {
+        return (isset($this->header[strtolower($key)]));
+    }
 
-	/**
-	 * Load Header Data
-	 *
-	 * @param mixed $options
-	 * @return Header
-	 */
-	protected function load($options = 0)
-	{
-		$overview = imap_fetch_overview($this->connection->getStream(), $this->message_number, $options);
+    /**
+     * Load Header Data
+     *
+     * @param mixed $options
+     * @return Header
+     */
+    protected function load($options = 0)
+    {
+        $overview = imap_fetch_overview($this->connection->getStream(), $this->message_number, $options);
 
         foreach ($overview as $key => $item_overview) {
             $this->header['subject'] = (isset($item_overview->subject)) ? $item_overview->subject : false;
@@ -118,5 +118,5 @@ class Header
         }
 
         return $this;
-	}
+    }
 }

@@ -245,6 +245,7 @@ class Message
     public function fetchStructure($options = 0)
     {
         $structure = imap_fetchstructure($this->connection->getStream(), $this->msg_number, $options);
+
         return $structure;
     }
 }

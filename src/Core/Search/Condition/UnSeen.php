@@ -14,13 +14,13 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class UnSeen implements Condition
 {
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "UNSEEN";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "UNSEEN";
+    }
 }

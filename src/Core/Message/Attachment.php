@@ -12,5 +12,5 @@ namespace Clivern\Imap\Core\Message;
  */
 class Attachment
 {
-	#~
+    #~
 }

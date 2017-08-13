@@ -14,13 +14,13 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class Answered implements Condition
 {
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "ANSWERED";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "ANSWERED";
+    }
 }

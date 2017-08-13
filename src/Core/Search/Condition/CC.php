@@ -15,28 +15,28 @@ use Clivern\Imap\Core\Search\Contract\Condition;
 class CC implements Condition
 {
 
-	/**
-	 * @var string
-	 */
-	protected $data;
+    /**
+     * @var string
+     */
+    protected $data;
 
-	/**
-	 * Class Constructor
-	 *
-	 * @param string $data
-	 */
-	public function __construct($data)
-	{
-		$this->data = $data;
-	}
+    /**
+     * Class Constructor
+     *
+     * @param string $data
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 
-	/**
-	 * Query String
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return "CC \"{$this->data}\"";
-	}
+    /**
+     * Query String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "CC \"{$this->data}\"";
+    }
 }
