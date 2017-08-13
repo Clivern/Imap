@@ -5,6 +5,8 @@
 
 namespace Clivern\Imap\Core\Message;
 
+use Clivern\Imap\Core\Connection;
+
 /**
  * Attachments Class
  *
