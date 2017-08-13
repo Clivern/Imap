@@ -9,6 +9,8 @@ use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\MessageIterator;
 use Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Search;
+use Clivern\Imap\Core\Message\Header;
+use Clivern\Imap\Core\Message\Actions;
 
 /**
  * MailBox Class
@@ -102,7 +104,7 @@ class MailBox
     {
         $this->connection->survive($this->folder);
 
-        $message = new Message($this->connection);
+        $message = new Message($this->connection, new Header($this->connection), new Actions($this->connection));
 
         if( $message_number == false ){
             return $message->setUid($message_uid)->config();

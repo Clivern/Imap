@@ -6,6 +6,8 @@
 namespace Clivern\Imap\Core;
 
 use Clivern\Imap\Core\Connection;
+use Clivern\Imap\Core\Message\Header;
+use Clivern\Imap\Core\Message\Actions;
 
 /**
  * Message Class
@@ -18,6 +20,16 @@ class Message
      * @var Connection
      */
     protected $connection;
+
+    /**
+     * @var Header
+     */
+    protected $header;
+
+    /**
+     * @var Actions
+     */
+    protected $actions;
 
     /**
      * @var integer
@@ -34,9 +46,11 @@ class Message
      *
      * @param Connection $connection
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, Header $header, Actions $actions)
     {
         $this->connection = $connection;
+        $this->header = $header;
+        $this->actions = $actions;
     }
 
     /**
@@ -101,6 +115,18 @@ class Message
         }
 
         return $this;
+    }
+
+    /**
+     * Get Message Header
+     *
+     * @param  string  $key
+     * @param  boolean $default
+     * @return mixed
+     */
+    public function header($key, $default = false)
+    {
+        return $this->header->config($this->msg_number, $this->uid, $options = 0)->get($key, $default);
     }
 
     /**

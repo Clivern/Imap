@@ -26,20 +26,44 @@ class Header
 	protected $message_number;
 
 	/**
-	 * @var array
-	 */
-	protected $header = [];
-
-	/**
 	 * @var integer
 	 */
 	protected $message_uid;
 
-	public function __construct(Connection $connection, $message_number, $message_uid)
+	/**
+	 * @var array
+	 */
+	protected $header = [];
+
+
+	/**
+	 * Class Constructor
+	 *
+	 * @param Connection $connection
+	 */
+	public function __construct(Connection $connection)
 	{
 		$this->connection = $connection;
+	}
+
+	/**
+	 * Config Message
+	 *
+	 * @param integer $message_number
+	 * @param integer $message_uid
+	 * @return Header
+	 */
+	public function config($message_number, $message_uid, $options = 0)
+	{
+		if( !empty($this->header) ){
+			return $this;
+		}
+
 		$this->message_number = $message_number;
 		$this->message_uid = $message_uid;
+		$this->load();
+
+		return $this;
 	}
 
 	/**
@@ -68,10 +92,31 @@ class Header
 	/**
 	 * Load Header Data
 	 *
-	 * @return boolean
+	 * @param mixed $options
+	 * @return Header
 	 */
-	protected function load()
+	protected function load($options = 0)
 	{
-		#~
+		$overview = imap_fetch_overview($this->connection->getStream(), $this->message_number, $options);
+
+        foreach ($overview as $key => $item_overview) {
+            $this->header['subject'] = (isset($item_overview->subject)) ? $item_overview->subject : false;
+            $this->header['from'] = (isset($item_overview->from)) ? $item_overview->from : false;
+            $this->header['to'] = (isset($item_overview->to)) ? $item_overview->to : false;
+            $this->header['date'] = (isset($item_overview->date)) ? $item_overview->date : false;
+            $this->header['message_id'] = (isset($item_overview->message_id)) ? $item_overview->message_id : false;
+            $this->header['size'] = (isset($item_overview->size)) ? $item_overview->size : false;
+            $this->header['uid'] = (isset($item_overview->uid)) ? $item_overview->uid : false;
+            $this->header['msgno'] = (isset($item_overview->msgno)) ? $item_overview->msgno : false;
+            $this->header['recent'] = (isset($item_overview->recent)) ? $item_overview->recent : false;
+            $this->header['flagged'] = (isset($item_overview->flagged)) ? $item_overview->flagged : false;
+            $this->header['answered'] = (isset($item_overview->answered)) ? $item_overview->answered : false;
+            $this->header['deleted'] = (isset($item_overview->deleted)) ? $item_overview->deleted : false;
+            $this->header['seen'] = (isset($item_overview->seen)) ? $item_overview->seen : false;
+            $this->header['draft'] = (isset($item_overview->draft)) ? $item_overview->draft : false;
+            $this->header['udate'] = (isset($item_overview->udate)) ? $item_overview->udate : false;
+        }
+
+        return $this;
 	}
 }

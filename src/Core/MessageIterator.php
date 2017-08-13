@@ -7,6 +7,8 @@ namespace Clivern\Imap\Core;
 
 use Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
+use Clivern\Imap\Core\Message\Header;
+use Clivern\Imap\Core\Message\Actions;
 
 /**
  * Message Iterator Class
@@ -16,6 +18,9 @@ use Clivern\Imap\Core\Connection;
 class MessageIterator extends \ArrayIterator
 {
 
+    /**
+     * @var Connection
+     */
     protected $connection;
 
     /**
@@ -37,7 +42,7 @@ class MessageIterator extends \ArrayIterator
      */
     public function current()
     {
-        $message = new Message($this->connection);
+        $message = new Message($this->connection, new Header($this->connection), new Actions($this->connection));
         return $message->setUid(parent::current())->config();
     }
 }
