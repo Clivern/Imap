@@ -13,16 +13,13 @@ namespace Clivern\Imap\Core\Exception;
 class AuthenticationFailedException extends \Exception
 {
 
+    /**
+     * Class Constructor
+     *
+     * @param string $error
+     */
     public function __construct($error = null)
     {
-        parent::__construct(
-            sprintf(
-                "Authentication failed with error: %s",
-                $server,
-                $port,
-                $email,
-                $error
-            )
-        );
+        parent::__construct(sprintf("Authentication failed with error: %s", $error));
     }
 }

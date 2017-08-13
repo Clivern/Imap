@@ -12,6 +12,7 @@ namespace Clivern\Imap\Core\Exception;
  */
 class MessageDoesNotExistException extends \Exception
 {
+
     /**
      * Class Constructor
      *
