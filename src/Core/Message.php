@@ -118,15 +118,23 @@ class Message
     }
 
     /**
-     * Get Message Header
+     * Get Message Header Object
      *
-     * @param  string  $key
-     * @param  boolean $default
-     * @return mixed
+     * @return Header
      */
-    public function header($key, $default = false)
+    public function header()
     {
-        return $this->header->config($this->msg_number, $this->uid, $options = 0)->get($key, $default);
+        return $this->header->config($this->msg_number, $this->uid, $options = 0);
+    }
+
+    /**
+     * Get Message Actions Object
+     *
+     * @return Actions
+     */
+    public function actions()
+    {
+        return $this->actions->config($this->msg_number, $this->uid, $options = 0);
     }
 
     /**
