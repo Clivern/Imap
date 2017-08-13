@@ -14,6 +14,7 @@ use Clivern\Imap\Core\Search\Contract\Condition;
  */
 class Answered implements Condition
 {
+
     /**
      * Query String
      *

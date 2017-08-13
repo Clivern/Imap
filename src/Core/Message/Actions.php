@@ -30,6 +30,12 @@ class Actions
      */
     protected $message_uid;
 
+
+    /**
+     * Class Constructor
+     *
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
