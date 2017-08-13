@@ -8,6 +8,8 @@ namespace Clivern\Imap\Core;
 use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\Message\Actions;
+use Clivern\Imap\Core\Message\Attachments;
+use Clivern\Imap\Core\Message\Body;
 
 /**
  * Message Class
@@ -32,6 +34,16 @@ class Message
     protected $actions;
 
     /**
+     * @var Attachments
+     */
+    protected $attachments;
+
+    /**
+     * @var Body
+     */
+    protected $body;
+
+    /**
      * @var integer
      */
     protected $uid;
@@ -46,11 +58,13 @@ class Message
      *
      * @param Connection $connection
      */
-    public function __construct(Connection $connection, Header $header, Actions $actions)
+    public function __construct(Connection $connection, Header $header, Actions $actions, Attachments $attachments, Body $body)
     {
         $this->connection = $connection;
         $this->header = $header;
         $this->actions = $actions;
+        $this->attachments = $attachments;
+        $this->body = $body;
     }
 
     /**
@@ -134,7 +148,27 @@ class Message
      */
     public function actions()
     {
-        return $this->actions->config($this->msg_number, $this->uid, $options = 0);
+        return $this->actions->config($this->msg_number, $this->uid);
+    }
+
+    /**
+     * Get Message Body Object
+     *
+     * @return Body
+     */
+    public function body()
+    {
+        return $this->body->config($this->msg_number, $this->uid);
+    }
+
+    /**
+     * Get Message Attachments Object
+     *
+     * @return Attachments
+     */
+    public function attachments()
+    {
+        return $this->attachments->config($this->msg_number, $this->uid);
     }
 
     /**
