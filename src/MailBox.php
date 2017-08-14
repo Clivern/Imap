@@ -13,6 +13,7 @@ use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\Message\Actions;
 use Clivern\Imap\Core\Message\Attachments;
 use Clivern\Imap\Core\Message\Body;
+use Clivern\Imap\Core\Exception\FolderNotExistException;
 
 /**
  * MailBox Class
@@ -33,6 +34,12 @@ class MailBox
     protected $connection;
 
     /**
+     * @var array
+     */
+    protected $folders = [];
+
+
+    /**
      * Constructor
      *
      * @param Connection $connection IMAP connection
@@ -50,7 +57,12 @@ class MailBox
      */
     public function setFolder($folder)
     {
+        if( !in_array($folder, $this->getFolders()) ){
+            throw new FolderNotExistException($folder);
+        }
+
         $this->folder = $folder;
+
         return $this;
     }
 
@@ -124,5 +136,25 @@ class MailBox
     {
         $this->connection->survive($this->folder);
         imap_expunge($this->connection->getStream());
+    }
+
+    /**
+     * Get Folders List
+     *
+     * @return array
+     */
+    public function getFolders()
+    {
+        if( !empty($this->folders) ){
+            return $this->folders;
+        }
+
+        $this->folders = imap_getmailboxes($this->connection->getStream(), "{" . $this->connection->getServer() . "}", "*");
+
+        foreach ($this->folders as $key => $folder) {
+            $this->folders[$key] = str_replace("{" . $this->connection->getServer() . "}", "", $folder->name);
+        }
+
+        return $this->folders;
     }
 }
