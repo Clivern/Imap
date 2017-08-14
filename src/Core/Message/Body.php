@@ -30,6 +30,16 @@ class Body
      */
     protected $message_uid;
 
+    /**
+     * @var integer
+     */
+    protected $encoding;
+
+    /**
+     * @var string
+     */
+    protected $message = '';
+
 
     /**
      * Class Constructor
@@ -54,5 +64,47 @@ class Body
         $this->message_uid = $message_uid;
 
         return $this;
+    }
+
+    /**
+     * Get Message
+     *
+     * @param  integer $option
+     * @return string
+     */
+    public function getMessage($option = 2)
+    {
+        if( !empty($this->message) ){
+            return $this->message;
+        }
+
+        $structure = imap_fetchstructure($this->connection->getStream(), $this->message_number);
+
+        if(isset($structure->parts) && is_array($structure->parts) && isset($structure->parts[1])) {
+            $part = $structure->parts[1];
+            $this->message = imap_fetchbody($this->connection->getStream(),$this->message_number , $option);
+
+            $this->encoding = $part->encoding;
+
+            if($part->encoding == 3) {
+                $this->message = imap_base64($this->message);
+            } elseif($part->encoding == 1) {
+                $this->message = imap_8bit($this->message);
+            } else {
+                $this->message = imap_qprint($this->message);
+            }
+        }
+
+        return $this->message;
+    }
+
+    /**
+     * Get Encoding
+     *
+     * @return integer
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
     }
 }

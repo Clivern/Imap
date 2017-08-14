@@ -90,6 +90,29 @@ class Header
     }
 
     /**
+     * Parse Address List
+     *
+     * @param string $address_string
+     * @return array
+     */
+    public function parseAddressList($address_string, $default_host = "example.com")
+    {
+        $address_array  = imap_rfc822_parse_adrlist($address_string, $default_host);
+        $address_list = [];
+
+        foreach ($address_array as $id => $val) {
+            $address_list[] = [
+                'mailbox' => $val->mailbox,
+                'host' => $val->host,
+                'personal' => $val->personal,
+                'adl' => $val->adl
+            ];
+        }
+
+        return $address_list;
+    }
+
+    /**
      * Load Header Data
      *
      * @param mixed $options
@@ -100,11 +123,13 @@ class Header
         $overview = imap_fetch_overview($this->connection->getStream(), $this->message_number, $options);
 
         foreach ($overview as $key => $item_overview) {
-            $this->header['subject'] = (isset($item_overview->subject)) ? $item_overview->subject : false;
+            $this->header['subject'] = (isset($item_overview->subject)) ? imap_utf8($item_overview->subject) : false;
             $this->header['from'] = (isset($item_overview->from)) ? $item_overview->from : false;
             $this->header['to'] = (isset($item_overview->to)) ? $item_overview->to : false;
             $this->header['date'] = (isset($item_overview->date)) ? $item_overview->date : false;
             $this->header['message_id'] = (isset($item_overview->message_id)) ? $item_overview->message_id : false;
+            $this->header['in_reply_to'] = (isset($item_overview->in_reply_to)) ? $item_overview->in_reply_to : false;
+            $this->header['references'] = (isset($item_overview->references)) ? explode(" ", $item_overview->references) : false;
             $this->header['size'] = (isset($item_overview->size)) ? $item_overview->size : false;
             $this->header['uid'] = (isset($item_overview->uid)) ? $item_overview->uid : false;
             $this->header['msgno'] = (isset($item_overview->msgno)) ? $item_overview->msgno : false;
