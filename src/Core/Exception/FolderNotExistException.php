@@ -6,7 +6,7 @@
 namespace Clivern\Imap\Core\Exception;
 
 /**
- * Connection Error Class
+ * Folder Not Exist Error Class
  *
  * @package Clivern\Imap\Core\Exception
  */
