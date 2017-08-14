@@ -10,7 +10,7 @@ Installation
 ------------
 To install the package via `composer`, use the following:
 ```php
-composer require clivern/file_uploader
+composer require clivern/imap
 ```
 
 Usage
