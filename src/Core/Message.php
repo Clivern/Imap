@@ -8,7 +8,7 @@ namespace Clivern\Imap\Core;
 use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\Message\Actions;
-use Clivern\Imap\Core\Message\Attachments;
+use Clivern\Imap\Core\Message\Attachment;
 use Clivern\Imap\Core\Message\Body;
 
 /**
@@ -34,9 +34,9 @@ class Message
     protected $actions;
 
     /**
-     * @var Attachments
+     * @var array
      */
-    protected $attachments;
+    protected $attachments = null;
 
     /**
      * @var Body
@@ -58,12 +58,11 @@ class Message
      *
      * @param Connection $connection
      */
-    public function __construct(Connection $connection, Header $header, Actions $actions, Attachments $attachments, Body $body)
+    public function __construct(Connection $connection, Header $header, Actions $actions, Body $body)
     {
         $this->connection = $connection;
         $this->header = $header;
         $this->actions = $actions;
-        $this->attachments = $attachments;
         $this->body = $body;
     }
 
@@ -162,13 +161,34 @@ class Message
     }
 
     /**
-     * Get Message Attachments Object
+     * Get Message Attachments
      *
-     * @return Attachments
+     * @return array
      */
     public function attachments()
     {
-        return $this->attachments->config($this->msg_number, $this->uid);
+        if( !is_null($this->attachments) ){
+            return $this->attachments;
+        }
+
+        $structure = imap_fetchstructure($this->connection->getStream(), $this->getMsgNo());
+
+        $this->attachments = [];
+        if (!isset($structure->parts)) {
+            return $this->attachments;
+        }
+
+        $i = 0;
+        foreach ($structure->parts as $index => $part) {
+            if (!$part->ifdisposition){
+                continue;
+            }
+            $this->attachments[$i] = new Attachment($this->connection);
+            $this->attachments[$i]->config($this->getMsgNo(), $this->getUid(), $index + 1, $part);
+            $i += 1;
+        }
+
+        return $this->attachments;
     }
 
     /**

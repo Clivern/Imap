@@ -9,7 +9,6 @@ use Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\Message\Actions;
-use Clivern\Imap\Core\Message\Attachments;
 use Clivern\Imap\Core\Message\Body;
 
 /**
@@ -44,7 +43,7 @@ class MessageIterator extends \ArrayIterator
      */
     public function current()
     {
-        $message = new Message($this->connection, new Header($this->connection), new Actions($this->connection), new Attachments($this->connection), new Body($this->connection));
+        $message = new Message($this->connection, new Header($this->connection), new Actions($this->connection), new Body($this->connection));
         return $message->setUid(parent::current())->config();
     }
 }
