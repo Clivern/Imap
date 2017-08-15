@@ -52,11 +52,13 @@ class Attachment
     }
 
     /**
-     * Config Attachments
+     * Config Attachment
      *
      * @param integer $message_number
      * @param integer $message_uid
-     * @return Attachments
+     * @param integer $attachment_id
+     * @param object $part
+     * @return Attachment
      */
     public function config($message_number, $message_uid, $attachment_id, $part)
     {
@@ -70,36 +72,73 @@ class Attachment
         return $this;
     }
 
+    /**
+     * Get Attachment Property
+     *
+     * @param  string  $key
+     * @param  boolean $default
+     * @return mixed
+     */
     public function get($key, $default = false)
     {
         return (isset($this->attachment[$key])) ? $this->attachment[$key] : $default;
     }
 
+    /**
+     * Get Filename
+     *
+     * @return mixed
+     */
     public function getFilename()
     {
         return $this->get('filename', false);
     }
 
+    /**
+     * Get Extension
+     *
+     * @return mixed
+     */
     public function getExtension()
     {
         return $this->get('extension', false);
     }
 
+    /**
+     * Get Size
+     *
+     * @return mixed
+     */
     public function getSize()
     {
         return $this->get('size', false);
     }
 
+    /**
+     * Get Encoding
+     *
+     * @return mixed
+     */
     public function getEncoding()
     {
         return $this->get('encoding', false);
     }
 
+    /**
+     * Get Bytes
+     *
+     * @return mixed
+     */
     public function getBytes()
     {
         return $this->get('bytes', false);
     }
 
+    /**
+     * Get Plain Body
+     *
+     * @return mixed
+     */
     public function getPlainBody()
     {
         if( $this->get('plain_body') ){
@@ -112,6 +151,12 @@ class Attachment
        return $this->get('plain_body');
     }
 
+    /**
+     * Get Body
+     *
+     * @return mixed
+     * @throws Exception
+     */
     public function getBody()
     {
 
@@ -140,6 +185,13 @@ class Attachment
         throw new \Exception(sprintf('Encoding failed: Unknown encoding %s.', $this->getEncoding()));
     }
 
+    /**
+     * Store File
+     *
+     * @param  string  $path
+     * @param  boolean $file_name
+     * @return boolean
+     */
     public function store($path, $file_name = false)
     {
         $file_name = ($file_name) ? $file_name : "{$this->getFilename()}.{$this->getExtension()}";
@@ -147,6 +199,11 @@ class Attachment
         return (boolean) file_put_contents($path . $file_name, $this->getBody());
     }
 
+    /**
+     * Parse Parts
+     *
+     * @return boolean
+     */
     protected function parseParts()
     {
         if( (count($this->attachment) > 2) ){
