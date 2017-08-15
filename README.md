@@ -27,8 +27,14 @@ After adding the package as a dependency, Please read the following steps:
 ```php
 include_once dirname(__FILE__) . '/vendor/autoload.php';
 
-
-$connection = new Clivern\Imap\Core\Connection("imap.gmail.com", "993", "test@clivern.com", "my_password", "/ssl", "INBOX");
+$connection = new Clivern\Imap\Core\Connection(
+	"imap.gmail.com",
+	"993",
+	"test@clivern.com",
+	"my_password",
+	"/ssl",
+	"INBOX"
+);
 $connection->connect();
 ```
 
