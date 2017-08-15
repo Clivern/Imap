@@ -43,7 +43,34 @@ $connection->connect();
 #### Connection Options
 
 ```php
-#~
+$folder = "INBOX";
+
+// Reconnect & Update Mailbox Folder
+$connection->reconnect($folder);
+// Reopen Connection
+$connection->survive($folder);
+// Get Connection Stream
+$connection->getStream();
+// Get Server String
+$connection->getServer();
+// Check Connection
+$connection->checkConnection();
+// Get Quota Array
+$connection->getQuota($folder);
+// Get Status Array
+$connection->getStatus($folder);
+// Check MailBox Data
+$connection->check();
+// Ping Connection
+$connection->ping();
+// Get Errors
+$connection->getErrors();
+// Get Alerts
+$connection->getAlerts();
+// Get Last Error
+$connection->getLastError();
+// Disconnect
+$connection->disconnect();
 ```
 
 
@@ -142,6 +169,27 @@ foreach ($messages as $message) {
 }
 ```
 
+#### Mailbox Option
+
+```php
+use Clivern\Imap\MailBox;
+
+$mailbox = new MailBox($connection);
+// Get Folders
+$mailbox->getFolders();
+// Update Folder
+$mailbox->setFolder("[Gmail]/All Mail");
+// Count Messages in Current Folder
+$mailbox->count();
+
+$messages = $mailbox->getMessages();
+
+foreach ($messages as $message) {
+	echo "Subject: " . $message->header()->get('subject');
+	echo "<br/>";
+	echo $message->body()->getMessage();
+}
+```
 
 #### Messages
 ```php
