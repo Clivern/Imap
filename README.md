@@ -30,12 +30,12 @@ include_once dirname(__FILE__) . '/vendor/autoload.php';
 use Clivern\Imap\Core\Connection;
 
 $connection = new Connection(
-	"imap.gmail.com",
-	"993",
-	"test@clivern.com",
-	"my_password",
-	"/ssl",
-	"INBOX"
+    "imap.gmail.com",
+    "993",
+    "test@clivern.com",
+    "my_password",
+    "/ssl",
+    "INBOX"
 );
 $connection->connect();
 ```
@@ -86,9 +86,9 @@ $mailbox = new MailBox($connection);
 $messages = $mailbox->getMessages();
 
 foreach ($messages as $message) {
-	echo "Subject: " . $message->header()->get('subject');
-	echo "<br/>";
-	echo $message->body()->getMessage();
+    echo "Subject: " . $message->header()->get('subject');
+    echo "<br/>";
+    echo $message->body()->getMessage();
 }
 
 ```
@@ -163,9 +163,9 @@ $mailbox = new MailBox($connection);
 $messages = $mailbox->getMessages($search);
 
 foreach ($messages as $message) {
-	echo "Subject: " . $message->header()->get('subject');
-	echo "<br/>";
-	echo $message->body()->getMessage();
+    echo "Subject: " . $message->header()->get('subject');
+    echo "<br/>";
+    echo $message->body()->getMessage();
 }
 ```
 
@@ -187,9 +187,9 @@ $mailbox->count();
 $messages = $mailbox->getMessages();
 
 foreach ($messages as $message) {
-	echo "Subject: " . $message->header()->get('subject');
-	echo "<br/>";
-	echo $message->body()->getMessage();
+    echo "Subject: " . $message->header()->get('subject');
+    echo "<br/>";
+    echo $message->body()->getMessage();
 }
 ```
 
@@ -229,17 +229,17 @@ To get message attachments
 ```php
 $attachments = $message->attachments();
 foreach ($attachments as $attachment) {
-	$attachment->getFilename();
-	$attachment->getExtension();
-	$attachment->getSize();
-	$attachment->getEncoding();
-	$attachment->getBytes();
-	// get attachment content
-	$attachment->getPlainBody();
-	// get decoded attachment content
-	$attachment->getBody();
-	// Store attachment in provided path
-	$attachment->store(__DIR__ . '/');
+    $attachment->getFilename();
+    $attachment->getExtension();
+    $attachment->getSize();
+    $attachment->getEncoding();
+    $attachment->getBytes();
+    // get attachment content
+    $attachment->getPlainBody();
+    // get decoded attachment content
+    $attachment->getBody();
+    // Store attachment in provided path
+    $attachment->store(__DIR__ . '/');
 }
 ```
 
