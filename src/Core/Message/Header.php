@@ -61,7 +61,7 @@ class Header
 
         $this->message_number = $message_number;
         $this->message_uid = $message_uid;
-        $this->load();
+        $this->load($options);
 
         return $this;
     }
