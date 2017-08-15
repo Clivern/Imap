@@ -7,7 +7,7 @@ namespace Clivern\Imap\Core;
 
 use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\Message\Header;
-use Clivern\Imap\Core\Message\Actions;
+use Clivern\Imap\Core\Message\Action;
 use Clivern\Imap\Core\Message\Attachment;
 use Clivern\Imap\Core\Message\Body;
 
@@ -29,9 +29,9 @@ class Message
     protected $header;
 
     /**
-     * @var Actions
+     * @var Action
      */
-    protected $actions;
+    protected $action;
 
     /**
      * @var array
@@ -58,11 +58,11 @@ class Message
      *
      * @param Connection $connection
      */
-    public function __construct(Connection $connection, Header $header, Actions $actions, Body $body)
+    public function __construct(Connection $connection, Header $header, Action $action, Body $body)
     {
         $this->connection = $connection;
         $this->header = $header;
-        $this->actions = $actions;
+        $this->action = $action;
         $this->body = $body;
     }
 
@@ -141,13 +141,13 @@ class Message
     }
 
     /**
-     * Get Message Actions Object
+     * Get Message Action Object
      *
-     * @return Actions
+     * @return Action
      */
-    public function actions()
+    public function action()
     {
-        return $this->actions->config($this->msg_number, $this->uid);
+        return $this->action->config($this->msg_number, $this->uid);
     }
 
     /**

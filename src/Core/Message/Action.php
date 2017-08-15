@@ -8,11 +8,11 @@ namespace Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 
 /**
- * Actions Class
+ * Action Class
  *
  * @package Clivern\Imap\Core\Message
  */
-class Actions
+class Action
 {
 
     /**
@@ -46,7 +46,7 @@ class Actions
      *
      * @param integer $message_number
      * @param integer $message_uid
-     * @return Actions
+     * @return Action
      */
     public function config($message_number, $message_uid)
     {
