@@ -2,7 +2,7 @@ Imap
 ====
 :mailbox_with_mail: Access Mailbox Using PHP IMAP.
 
-*Current Version: coming soon*
+*Current Version: 1.0.0*
 
 [![Build Status](https://travis-ci.org/Clivern/Imap.svg?branch=master)](https://travis-ci.org/Clivern/Imap)
 
@@ -171,6 +171,8 @@ foreach ($messages as $message) {
 
 #### Mailbox Option
 
+Some good methods in mailbox
+
 ```php
 use Clivern\Imap\MailBox;
 
@@ -192,8 +194,53 @@ foreach ($messages as $message) {
 ```
 
 #### Messages
+
+To get message header data:
+
 ```php
-#~
+$message->header()->get('subject');
+$message->header()->get('from');
+$message->header()->get('to');
+$message->header()->get('date');
+$message->header()->get('message_id');
+$message->header()->get('in_reply_to');
+$message->header()->get('references');
+$message->header()->get('size');
+$message->header()->get('uid');
+$message->header()->get('msgno');
+$message->header()->get('recent');
+$message->header()->get('flagged');
+$message->header()->get('answered');
+$message->header()->get('deleted');
+$message->header()->get('seen');
+$message->header()->get('draft');
+$message->header()->get('udate');
+```
+
+To get message body
+
+```php
+$message->body()->getMessage();
+$message->body()->getEncoding();
+```
+
+To get message attachments
+
+```php
+$attachments = $message->attachments();
+foreach ($attachments as $attachment) {
+	$attachment->getFilename();
+	$attachment->getExtension();
+	$attachment->getSize();
+	$attachment->getEncoding();
+	$attachment->getBytes();
+	// get attachment content
+	$attachment->getPlainBody();
+	// get decoded attachment content
+	$attachment->getBody();
+	// Store attachment in provided path
+	$attachment->store(__DIR__ . '/');
+}
 ```
 
 
@@ -204,7 +251,7 @@ Changelog
 ---------
 Version 1.0.0:
 ```
-Coming Soon
+Initial Release.
 ```
 
 Acknowledgements
