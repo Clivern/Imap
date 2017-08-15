@@ -27,7 +27,9 @@ After adding the package as a dependency, Please read the following steps:
 ```php
 include_once dirname(__FILE__) . '/vendor/autoload.php';
 
-$connection = new Clivern\Imap\Core\Connection(
+use Clivern\Imap\Core\Connection;
+
+$connection = new Connection(
 	"imap.gmail.com",
 	"993",
 	"test@clivern.com",
@@ -50,7 +52,9 @@ $connection->connect();
 Retrieve mailboxes (also known as mail folders) from the mail server and iterate over them:
 
 ```php
-$mailbox = new Clivern\Imap\MailBox($connection);
+use Clivern\Imap\MailBox;
+
+$mailbox = new MailBox($connection);
 
 $messages = $mailbox->getMessages();
 
@@ -67,31 +71,57 @@ foreach ($messages as $message) {
 To add custom search
 
 ```php
-$search = new Clivern\Imap\Core\Search();
-$search->addCondition(new Clivern\Imap\Core\Search\Condition\All());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Answered());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\BCC("filter@gmail.com"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Before(date("j F Y")));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Body("search text"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\CC("filter@gmail.com"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Deleted());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Flagged());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\From("filter@gmail.com"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Keyword("test"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\NewFlag());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Old());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\On(date("j F Y")));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Recent());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Seen());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Since(date("j F Y")));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Subject("search text"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\Text("search text"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\To("filter@gmail.com"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\UnAnswered());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\UnDeleted());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\UnFlagged());
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\UnKeyword("test"));
-// $search->addCondition(new Clivern\Imap\Core\Search\Condition\UnSeen());
+use Clivern\Imap\Core\Search;
+use Clivern\Imap\Core\Search\Condition\All;
+use Clivern\Imap\Core\Search\Condition\Answered;
+use Clivern\Imap\Core\Search\Condition\BCC;
+use Clivern\Imap\Core\Search\Condition\Before;
+use Clivern\Imap\Core\Search\Condition\Body;
+use Clivern\Imap\Core\Search\Condition\CC;
+use Clivern\Imap\Core\Search\Condition\Deleted;
+use Clivern\Imap\Core\Search\Condition\Flagged;
+use Clivern\Imap\Core\Search\Condition\From;
+use Clivern\Imap\Core\Search\Condition\Keyword;
+use Clivern\Imap\Core\Search\Condition\NewFlag;
+use Clivern\Imap\Core\Search\Condition\Old;
+use Clivern\Imap\Core\Search\Condition\On;
+use Clivern\Imap\Core\Search\Condition\Recent;
+use Clivern\Imap\Core\Search\Condition\Seen;
+use Clivern\Imap\Core\Search\Condition\Since;
+use Clivern\Imap\Core\Search\Condition\Subject;
+use Clivern\Imap\Core\Search\Condition\Text;
+use Clivern\Imap\Core\Search\Condition\To;
+use Clivern\Imap\Core\Search\Condition\UnAnswered;
+use Clivern\Imap\Core\Search\Condition\UnDeleted;
+use Clivern\Imap\Core\Search\Condition\UnFlagged;
+use Clivern\Imap\Core\Search\Condition\UnKeyword;
+use Clivern\Imap\Core\Search\Condition\UnSeen;
+
+$search = new Search();
+$search->addCondition(new All());
+// $search->addCondition(new Answered());
+// $search->addCondition(new BCC("filter@gmail.com"));
+// $search->addCondition(new Before(date("j F Y")));
+// $search->addCondition(new Body("search text"));
+// $search->addCondition(new CC("filter@gmail.com"));
+// $search->addCondition(new Deleted());
+// $search->addCondition(new Flagged());
+// $search->addCondition(new From("filter@gmail.com"));
+// $search->addCondition(new Keyword("test"));
+// $search->addCondition(new NewFlag());
+// $search->addCondition(new Old());
+// $search->addCondition(new On(date("j F Y")));
+// $search->addCondition(new Recent());
+// $search->addCondition(new Seen());
+// $search->addCondition(new Since(date("j F Y")));
+// $search->addCondition(new Subject("search text"));
+// $search->addCondition(new Text("search text"));
+// $search->addCondition(new To("filter@gmail.com"));
+// $search->addCondition(new UnAnswered());
+// $search->addCondition(new UnDeleted());
+// $search->addCondition(new UnFlagged());
+// $search->addCondition(new UnKeyword("test"));
+// $search->addCondition(new UnSeen());
 
 // For more info, please check http://php.net/manual/en/function.imap-search.php
 ```
@@ -99,7 +129,9 @@ $search->addCondition(new Clivern\Imap\Core\Search\Condition\All());
 Then configure mailbox:
 
 ```php
-$mailbox = new Clivern\Imap\MailBox($connection);
+use Clivern\Imap\MailBox;
+
+$mailbox = new MailBox($connection);
 
 $messages = $mailbox->getMessages($search);
 
