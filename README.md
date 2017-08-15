@@ -8,24 +8,58 @@ Imap
 
 Installation
 ------------
+
 To install the package via `composer`, use the following:
+
 ```php
 composer require clivern/imap
 ```
+This command requires you to have Composer installed globally.
+
 
 Usage
 -----
+
 After adding the package as a dependency, Please read the following steps:
 
-First configure connection class.
+### Connect and Authenticate
+
 ```php
 include_once dirname(__FILE__) . '/vendor/autoload.php';
+
 
 $connection = new Clivern\Imap\Core\Connection("imap.gmail.com", "993", "test@clivern.com", "my_password", "/ssl", "INBOX");
 $connection->connect();
 ```
 
+#### Connection Options
+
+```php
+#~
+```
+
+
+### Mailboxes
+
+Retrieve mailboxes (also known as mail folders) from the mail server and iterate over them:
+
+```php
+$mailbox = new Clivern\Imap\MailBox($connection);
+
+$messages = $mailbox->getMessages();
+
+foreach ($messages as $message) {
+	echo "Subject: " . $message->header()->get('subject');
+	echo "<br/>";
+	echo $message->body()->getMessage();
+}
+
+```
+
+#### Searching
+
 To add custom search
+
 ```php
 $search = new Clivern\Imap\Core\Search();
 $search->addCondition(new Clivern\Imap\Core\Search\Condition\All());
@@ -68,6 +102,12 @@ foreach ($messages as $message) {
 	echo "<br/>";
 	echo $message->body()->getMessage();
 }
+```
+
+
+#### Messages
+```php
+#~
 ```
 
 
