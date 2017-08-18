@@ -147,7 +147,6 @@ class Attachment
 
        $this->attachment['plain_body'] = imap_fetchbody($this->connection->getStream(), $this->message_number, $this->attachment['index']);
 
-       var_dump($this->attachment['plain_body']);
        return $this->get('plain_body');
     }
 
