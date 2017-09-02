@@ -2,7 +2,7 @@ Imap
 ====
 :mailbox_with_mail: Access Mailbox Using PHP IMAP.
 
-*Current Version: 1.0.1*
+*Current Version: 1.0.2*
 
 [![Build Status](https://travis-ci.org/Clivern/Imap.svg?branch=master)](https://travis-ci.org/Clivern/Imap)
 
@@ -265,6 +265,11 @@ Misc
 
 Changelog
 ---------
+Version 1.0.2:
+```
+Message delete & undelete actions added
+```
+
 Version 1.0.1:
 ```
 Debug data removed.
