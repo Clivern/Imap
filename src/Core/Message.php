@@ -203,4 +203,14 @@ class Message
 
         return $body;
     }
+
+    /**
+     * Delete message
+     *
+     * @return boolean
+     */
+    public function delete()
+    {
+        return imap_delete($this->connection->getStream(), $this->msg_number);
+    }
 }
