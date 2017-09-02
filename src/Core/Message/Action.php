@@ -55,4 +55,24 @@ class Action
 
         return $this;
     }
+
+    /**
+     * Delete Message
+     *
+     * @return boolean
+     */
+    public function delete()
+    {
+        return (boolean) imap_delete($this->connection->getStream(), $this->message_uid, \FT_UID);
+    }
+
+    /**
+     * Undelete Message
+     *
+     * @return boolean
+     */
+    public function undelete()
+    {
+        return (boolean) imap_undelete($this->connection->getStream(), $this->message_uid, \FT_UID);
+    }
 }

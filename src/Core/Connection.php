@@ -266,7 +266,7 @@ class Connection
      * @param integer $flag
      * @return boolean
      */
-    public function disconnect($flag = 0)
+    public function disconnect($flag = \CL_EXPUNGE)
     {
         if( !is_null($this->stream) && imap_ping($this->stream) ){
             if( imap_close($this->stream, $flag) ){

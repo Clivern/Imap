@@ -40,6 +40,13 @@ $connection = new Connection(
 $connection->connect();
 ```
 
+After end of everything, you should close connection
+
+```php
+$connection->disconnect();
+```
+
+
 #### Connection Options
 
 ```php
@@ -241,6 +248,15 @@ foreach ($attachments as $attachment) {
     // Store attachment in provided path
     $attachment->store(__DIR__ . '/');
 }
+```
+
+To do actions on message like delete or undelete
+
+```php
+$message->action()->delete();
+$message->action()->undelete();
+// and don't forget to run the following to delete all messages marked for deletion
+$mailbox->expunge();
 ```
 
 

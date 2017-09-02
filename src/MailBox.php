@@ -130,12 +130,12 @@ class MailBox
     /**
      * Delete all messages marked for deletion
      *
-     * @return Mailbox
+     * @return boolean
      */
     public function expunge()
     {
         $this->connection->survive($this->folder);
-        imap_expunge($this->connection->getStream());
+        return (boolean) imap_expunge($this->connection->getStream());
     }
 
     /**
