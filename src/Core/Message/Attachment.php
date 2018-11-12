@@ -209,19 +209,19 @@ class Attachment
             return true;
         }
 
-        $this->attachment['type'] = $this->part->type;
-        $this->attachment['encoding'] = $this->part->encoding;
-        $this->attachment['ifsubtype'] = $this->part->ifsubtype;
-        $this->attachment['subtype'] = $this->part->subtype;
-        $this->attachment['ifdescription'] = $this->part->ifdescription;
-        $this->attachment['ifid'] = $this->part->ifid;
-        $this->attachment['id'] = $this->part->id;
-        $this->attachment['bytes'] = $this->part->bytes;
-        $this->attachment['size'] = $this->part->bytes;
-        $this->attachment['ifdisposition'] = $this->part->ifdisposition;
-        $this->attachment['disposition'] = $this->part->disposition;
-        $this->attachment['ifdparameters'] = $this->part->ifdparameters;
-        $this->attachment['ifparameters'] = $this->part->ifparameters;
+        $this->attachment['type'] = (isset($this->part->type)) ? $this->part->type : false;
+        $this->attachment['encoding'] = (isset($this->part->encoding)) ? $this->part->encoding : false;
+        $this->attachment['ifsubtype'] = (isset($this->part->ifsubtype)) ? $this->part->ifsubtype : false;
+        $this->attachment['subtype'] = (isset($this->part->subtype)) ? $this->part->subtype : false;
+        $this->attachment['ifdescription'] = (isset($this->part->ifdescription)) ? $this->part->ifdescription : false;
+        $this->attachment['ifid'] = (isset($this->part->ifid)) ? $this->part->ifid : false;
+        $this->attachment['id'] = (isset($this->part->id)) ? $this->part->id : false;
+        $this->attachment['bytes'] = (isset($this->part->bytes)) ? $this->part->bytes : false;
+        $this->attachment['size'] = (isset($this->part->bytes)) ? $this->part->bytes : false;
+        $this->attachment['ifdisposition'] = (isset($this->part->ifdisposition)) ? $this->part->ifdisposition : false;
+        $this->attachment['disposition'] = (isset($this->part->disposition)) ? $this->part->disposition : false;
+        $this->attachment['ifdparameters'] = (isset($this->part->ifdparameters)) ? $this->part->ifdparameters : false;
+        $this->attachment['ifparameters'] = (isset($this->part->ifparameters)) ? $this->part->ifparameters : false;
 
         if( is_array($this->part->dparameters) ){
             foreach ($this->part->dparameters as $obj) {
