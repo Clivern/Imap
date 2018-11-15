@@ -96,7 +96,6 @@ class Body
             }
         }
         else {
-            $this->message = imap_fetchbody($this->connection->getStream(),$this->message_number , $option);
             $this->message = imap_body($this->connection->getStream(),$this->message_number , $option);
         }
 
