@@ -1,6 +1,8 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core;
@@ -8,20 +10,17 @@ namespace Clivern\Imap\Core;
 use Clivern\Imap\Core\Exception\AuthenticationFailedException;
 
 /**
- * Connection Class
- *
- * @package Clivern\Imap\Core
+ * Connection Class.
  */
 class Connection
 {
-
     /**
      * @var string
      */
     protected $server;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $port;
 
@@ -61,7 +60,7 @@ class Connection
     protected $timeout;
 
     /**
-     * Class Constructor
+     * Class Constructor.
      *
      * @param string $server
      * @param string $port
@@ -69,9 +68,8 @@ class Connection
      * @param string $password
      * @param string $flag
      * @param string $folder
-     * @return void
      */
-    public function __construct($server, $port, $email, $password, $flag = "/ssl", $folder = "INBOX")
+    public function __construct($server, $port, $email, $password, $flag = '/ssl', $folder = 'INBOX')
     {
         $this->server = $server;
         $this->port = $port;
@@ -82,55 +80,59 @@ class Connection
     }
 
     /**
-     * Connect to IMAP Email
+     * Connect to IMAP Email.
+     *
+     * @throws AuthenticationFailedException
      *
      * @return Connection
-     * @throws AuthenticationFailedException
      */
     public function connect()
     {
         try {
-            $this->stream = imap_open("{" . $this->server . ":" . $this->port . $this->flag . "}" . $this->folder, $this->email, $this->password);
+            $this->stream = imap_open(
+                '{'.$this->server.':'.$this->port.$this->flag.'}'.$this->folder,
+                $this->email,
+                $this->password
+            );
         } catch (\Exception $e) {
-            throw new AuthenticationFailedException("Error! Connecting to Imap Email.");
+            throw new AuthenticationFailedException('Error! Connecting to Imap Email.');
         }
 
         return $this;
     }
 
-    public function reconnect($folder = "INBOX")
+    public function reconnect($folder = 'INBOX')
     {
         try {
-            imap_reopen($this->stream, "{" . $this->server . ":" . $this->port . $this->flag . "}" . $folder);
+            imap_reopen($this->stream, '{'.$this->server.':'.$this->port.$this->flag.'}'.$folder);
         } catch (\Exception $e) {
-            throw new AuthenticationFailedException("Error! Connecting to Imap Email.");
+            throw new AuthenticationFailedException('Error! Connecting to Imap Email.');
         }
     }
 
-    public function survive($folder = "INBOX")
+    public function survive($folder = 'INBOX')
     {
-        if( !$this->ping() || ($this->folder != $folder) ) {
+        if (!$this->ping() || ($this->folder !== $folder)) {
             $this->reconnect($folder);
         }
     }
 
     /**
-     * Set Timeout
+     * Set Timeout.
      *
      * @param string $timeout_type it may be IMAP_OPENTIMEOUT, IMAP_READTIMEOUT, IMAP_WRITETIMEOUT, or IMAP_CLOSETIMEOUT
-     * @param integer $timeout time in seconds or -1
-     * @return void
+     * @param int    $timeout      time in seconds or -1
      */
     public function setTimeout($timeout_type, $timeout)
     {
         $this->timeout_type = $timeout_type;
         $this->timeout = $timeout;
 
-        return (boolean) imap_timeout($timeout_type, $timeout);
+        return (bool) imap_timeout($timeout_type, $timeout);
     }
 
     /**
-     * Get Stream
+     * Get Stream.
      *
      * @return mixed
      */
@@ -140,7 +142,7 @@ class Connection
     }
 
     /**
-     * Get Server
+     * Get Server.
      *
      * @return string
      */
@@ -150,19 +152,20 @@ class Connection
     }
 
     /**
-     * Check Connection
+     * Check Connection.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkConnection()
     {
-        return (!is_null($this->stream) && imap_ping($this->stream));
+        return null !== $this->stream && imap_ping($this->stream);
     }
 
     /**
-     * Get Quota
+     * Get Quota.
      *
-     * @param  string $folder
+     * @param string $folder
+     *
      * @return array
      */
     public function getQuota($folder = 'INBOX')
@@ -171,20 +174,21 @@ class Connection
 
         return [
             'usage' => (isset($data['usage'])) ? $data['usage'] : false,
-            'limit' => (isset($data['limit'])) ? $data['limit'] : false
+            'limit' => (isset($data['limit'])) ? $data['limit'] : false,
         ];
     }
 
     /**
-     * Get Status
+     * Get Status.
      *
-     * @param  string $folder
-     * @param  string $flag
+     * @param string $folder
+     * @param string $flag
+     *
      * @return array
      */
     public function getStatus($folder = 'INBOX', $flag = SA_ALL)
     {
-        $data = imap_status($this->stream, "{" . $this->server . "}" . $folder, $flag);
+        $data = imap_status($this->stream, '{'.$this->server.'}'.$folder, $flag);
 
         return [
             'flags' => (isset($data->flags)) ? $data->flags : false,
@@ -192,12 +196,12 @@ class Connection
             'recent' => (isset($data->recent)) ? $data->recent : false,
             'unseen' => (isset($data->unseen)) ? $data->unseen : false,
             'uidnext' => (isset($data->uidnext)) ? $data->uidnext : false,
-            'uidvalidity' => (isset($data->uidvalidity)) ? $data->uidvalidity : false
+            'uidvalidity' => (isset($data->uidvalidity)) ? $data->uidvalidity : false,
         ];
     }
 
     /**
-     * Check MailBox Data
+     * Check MailBox Data.
      *
      * @return array
      */
@@ -210,22 +214,22 @@ class Connection
             'driver' => (isset($data->Driver)) ? $data->Driver : false,
             'mailbox' => (isset($data->Mailbox)) ? $data->Mailbox : false,
             'nmsgs' => (isset($data->Nmsgs)) ? $data->Nmsgs : false,
-            'recent' => (isset($data->Recent)) ? $data->Recent : false
+            'recent' => (isset($data->Recent)) ? $data->Recent : false,
         ];
     }
 
     /**
-     * Ping Connection
+     * Ping Connection.
      *
-     * @return boolean
+     * @return bool
      */
     public function ping()
     {
-        return (boolean) imap_ping($this->stream);
+        return (bool) imap_ping($this->stream);
     }
 
     /**
-     * Get Errors
+     * Get Errors.
      *
      * @return array
      */
@@ -233,11 +237,11 @@ class Connection
     {
         $errors = imap_errors();
 
-        return (is_array($errors)) ? $errors : [];
+        return (\is_array($errors)) ? $errors : [];
     }
 
     /**
-     * Get Alerts
+     * Get Alerts.
      *
      * @return array
      */
@@ -245,11 +249,11 @@ class Connection
     {
         $alerts = imap_alerts();
 
-        return (is_array($alerts)) ? $alerts : [];
+        return (\is_array($alerts)) ? $alerts : [];
     }
 
     /**
-     * Get Last Error
+     * Get Last Error.
      *
      * @return string
      */
@@ -261,20 +265,22 @@ class Connection
     }
 
     /**
-     * Disconnect
+     * Disconnect.
      *
-     * @param integer $flag
-     * @return boolean
+     * @param int $flag
+     *
+     * @return bool
      */
     public function disconnect($flag = \CL_EXPUNGE)
     {
-        if( !is_null($this->stream) && imap_ping($this->stream) ){
-            if( imap_close($this->stream, $flag) ){
+        if (null !== $this->stream && imap_ping($this->stream)) {
+            if (imap_close($this->stream, $flag)) {
                 $this->stream = null;
+
                 return true;
-            }else{
-                return false;
             }
+
+            return false;
         }
 
         return false;

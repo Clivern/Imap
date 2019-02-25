@@ -1,5 +1,5 @@
 /vendor
-.phpintel/
 coverage.clover
-build/
-index.php
+.env
+.php_cs.cache
+build

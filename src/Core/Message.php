@@ -1,20 +1,19 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core;
 
-use Clivern\Imap\Core\Connection;
-use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\Message\Action;
 use Clivern\Imap\Core\Message\Attachment;
 use Clivern\Imap\Core\Message\Body;
+use Clivern\Imap\Core\Message\Header;
 
 /**
- * Message Class
- *
- * @package Clivern\Imap\Core
+ * Message Class.
  */
 class Message
 {
@@ -44,17 +43,17 @@ class Message
     protected $body;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $uid;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $msg_number;
 
     /**
-     * Message Constructor
+     * Message Constructor.
      *
      * @param Connection $connection
      */
@@ -67,9 +66,11 @@ class Message
     }
 
     /**
-     * Set Message Number
+     * Set Message Number.
      *
-     * @param integer $id
+     * @param int   $id
+     * @param mixed $msg_number
+     *
      * @return Message
      */
     public function setMsgNo($msg_number)
@@ -80,9 +81,9 @@ class Message
     }
 
     /**
-     * Get Message Number
+     * Get Message Number.
      *
-     * @return integer
+     * @return int
      */
     public function getMsgNo()
     {
@@ -90,9 +91,10 @@ class Message
     }
 
     /**
-     * Set UID
+     * Set UID.
      *
-     * @param integer $uid
+     * @param int $uid
+     *
      * @return Message
      */
     public function setUid($uid)
@@ -103,9 +105,9 @@ class Message
     }
 
     /**
-     * Get UID
+     * Get UID.
      *
-     * @return integer
+     * @return int
      */
     public function getUid()
     {
@@ -113,17 +115,17 @@ class Message
     }
 
     /**
-     * Config Message Number & UID
+     * Config Message Number & UID.
      *
      * @return Message
      */
     public function config()
     {
-        if( !$this->msg_number && $this->uid ){
+        if (!$this->msg_number && $this->uid) {
             $this->msg_number = imap_msgno($this->connection->getStream(), $this->uid);
         }
 
-        if( !$this->uid && $this->msg_number ){
+        if (!$this->uid && $this->msg_number) {
             $this->uid = imap_uid($this->connection->getStream(), $this->msg_number);
         }
 
@@ -131,7 +133,7 @@ class Message
     }
 
     /**
-     * Get Message Header Object
+     * Get Message Header Object.
      *
      * @return Header
      */
@@ -141,7 +143,7 @@ class Message
     }
 
     /**
-     * Get Message Action Object
+     * Get Message Action Object.
      *
      * @return Action
      */
@@ -151,7 +153,7 @@ class Message
     }
 
     /**
-     * Get Message Body Object
+     * Get Message Body Object.
      *
      * @return Body
      */
@@ -161,13 +163,13 @@ class Message
     }
 
     /**
-     * Get Message Attachments
+     * Get Message Attachments.
      *
      * @return array
      */
     public function attachments()
     {
-        if( !is_null($this->attachments) ){
+        if (null !== $this->attachments) {
             return $this->attachments;
         }
 
@@ -180,21 +182,22 @@ class Message
 
         $i = 0;
         foreach ($structure->parts as $index => $part) {
-            if (!$part->ifdisposition){
+            if (!$part->ifdisposition) {
                 continue;
             }
             $this->attachments[$i] = new Attachment($this->connection);
             $this->attachments[$i]->config($this->getMsgNo(), $this->getUid(), $index + 1, $part);
-            $i += 1;
+            ++$i;
         }
 
         return $this->attachments;
     }
 
     /**
-     * Get Body
+     * Get Body.
      *
-     * @param integer $options
+     * @param int $options
+     *
      * @return string
      */
     public function getBody($options = 0)

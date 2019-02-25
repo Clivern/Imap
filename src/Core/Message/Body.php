@@ -1,6 +1,8 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core\Message;
@@ -8,30 +10,27 @@ namespace Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 
 /**
- * Body Class
- *
- * @package Clivern\Imap\Core\Message
+ * Body Class.
  */
 class Body
 {
-
     /**
      * @var Connection
      */
     protected $connection;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_number;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_uid;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $encoding;
 
@@ -40,9 +39,8 @@ class Body
      */
     protected $message = '';
 
-
     /**
-     * Class Constructor
+     * Class Constructor.
      *
      * @param Connection $connection
      */
@@ -52,10 +50,11 @@ class Body
     }
 
     /**
-     * Config Body
+     * Config Body.
      *
-     * @param integer $message_number
-     * @param integer $message_uid
+     * @param int $message_number
+     * @param int $message_uid
+     *
      * @return Body
      */
     public function config($message_number, $message_uid)
@@ -67,29 +66,29 @@ class Body
     }
 
     /**
-     * Get Message
+     * Get Message.
      *
-     * @param  integer $option
+     * @param int $option
+     *
      * @return string
      */
     public function getMessage($option = 2)
     {
-        if( !empty($this->message) ){
+        if (!empty($this->message)) {
             return $this->message;
         }
 
         $structure = imap_fetchstructure($this->connection->getStream(), $this->message_number);
 
-        if (isset($structure->parts) && is_array($structure->parts) && isset($structure->parts[1])) {
+        if (isset($structure->parts) && \is_array($structure->parts) && isset($structure->parts[1])) {
             $part = $structure->parts[1];
-            $this->message = imap_fetchbody($this->connection->getStream(),$this->message_number , $option);
-
+            $this->message = imap_fetchbody($this->connection->getStream(), $this->message_number, $option);
 
             $this->encoding = $part->encoding;
 
-            if($part->encoding == 3) {
+            if (3 === $part->encoding) {
                 $this->message = imap_base64($this->message);
-            } elseif($part->encoding == 1) {
+            } elseif (1 === $part->encoding) {
                 $this->message = imap_8bit($this->message);
             } else {
                 $this->message = imap_qprint($this->message);
@@ -102,9 +101,9 @@ class Body
     }
 
     /**
-     * Get Encoding
+     * Get Encoding.
      *
-     * @return integer
+     * @return int
      */
     public function getEncoding()
     {
