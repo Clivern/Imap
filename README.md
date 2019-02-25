@@ -265,6 +265,11 @@ Misc
 
 Changelog
 ---------
+Version 1.0.4:
+```
+Fix for plain text messages.
+```
+
 Version 1.0.3:
 ```
 Fix Attachment Object.
