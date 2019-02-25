@@ -1,6 +1,8 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core\Message;
@@ -8,25 +10,22 @@ namespace Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 
 /**
- * Attachment Class
- *
- * @package Clivern\Imap\Core\Message
+ * Attachment Class.
  */
 class Attachment
 {
-
     /**
      * @var Connection
      */
     protected $connection;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_number;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_uid;
 
@@ -36,13 +35,12 @@ class Attachment
     protected $attachment;
 
     /**
-     * @var Object
+     * @var object
      */
     protected $part;
 
-
     /**
-     * Class Constructor
+     * Class Constructor.
      *
      * @param Connection $connection
      */
@@ -52,12 +50,13 @@ class Attachment
     }
 
     /**
-     * Config Attachment
+     * Config Attachment.
      *
-     * @param integer $message_number
-     * @param integer $message_uid
-     * @param integer $attachment_id
+     * @param int    $message_number
+     * @param int    $message_uid
+     * @param int    $attachment_id
      * @param object $part
+     *
      * @return Attachment
      */
     public function config($message_number, $message_uid, $attachment_id, $part)
@@ -73,10 +72,11 @@ class Attachment
     }
 
     /**
-     * Get Attachment Property
+     * Get Attachment Property.
      *
-     * @param  string  $key
-     * @param  boolean $default
+     * @param string $key
+     * @param bool   $default
+     *
      * @return mixed
      */
     public function get($key, $default = false)
@@ -85,7 +85,7 @@ class Attachment
     }
 
     /**
-     * Get Filename
+     * Get Filename.
      *
      * @return mixed
      */
@@ -95,7 +95,7 @@ class Attachment
     }
 
     /**
-     * Get Extension
+     * Get Extension.
      *
      * @return mixed
      */
@@ -105,7 +105,7 @@ class Attachment
     }
 
     /**
-     * Get Size
+     * Get Size.
      *
      * @return mixed
      */
@@ -115,7 +115,7 @@ class Attachment
     }
 
     /**
-     * Get Encoding
+     * Get Encoding.
      *
      * @return mixed
      */
@@ -125,7 +125,7 @@ class Attachment
     }
 
     /**
-     * Get Bytes
+     * Get Bytes.
      *
      * @return mixed
      */
@@ -135,49 +135,52 @@ class Attachment
     }
 
     /**
-     * Get Plain Body
+     * Get Plain Body.
      *
      * @return mixed
      */
     public function getPlainBody()
     {
-        if( $this->get('plain_body') ){
+        if ($this->get('plain_body')) {
             return $this->get('plain_body');
         }
 
-       $this->attachment['plain_body'] = imap_fetchbody($this->connection->getStream(), $this->message_number, $this->attachment['index']);
+        $this->attachment['plain_body'] = imap_fetchbody(
+            $this->connection->getStream(),
+            $this->message_number,
+            $this->attachment['index']
+        );
 
-       return $this->get('plain_body');
+        return $this->get('plain_body');
     }
 
     /**
-     * Get Body
+     * Get Body.
+     *
+     * @throws Exception
      *
      * @return mixed
-     * @throws Exception
      */
     public function getBody()
     {
-
-        if( $this->get('body') ){
+        if ($this->get('body')) {
             return $this->get('body');
         }
 
         switch ($this->getEncoding()) {
-            case 0: // 7BIT
-
-            case 1: // 8BIT
-
             case 2: // BINARY
                 $this->attachment['body'] = $this->getPlainBody();
+
                 return $this->get('body');
 
             case 3: // BASE-64
-                $this->attachment['body'] = base64_decode($this->getPlainBody());
+                $this->attachment['body'] = base64_decode($this->getPlainBody(), true);
+
                 return $this->get('body');
 
             case 4: // QUOTED-PRINTABLE
                 $this->attachment['body'] = imap_qprint($this->getPlainBody());
+
                 return $this->get('body');
         }
 
@@ -185,27 +188,29 @@ class Attachment
     }
 
     /**
-     * Store File
+     * Store File.
      *
-     * @param  string  $path
-     * @param  boolean $file_name
-     * @return boolean
+     * @param string $path
+     * @param bool   $file_name
+     *
+     * @return bool
      */
     public function store($path, $file_name = false)
     {
         $file_name = ($file_name) ? $file_name : "{$this->getFilename()}.{$this->getExtension()}";
-        $path = rtrim($path, '/') . "/";
-        return (boolean) file_put_contents($path . $file_name, $this->getBody());
+        $path = rtrim($path, '/').'/';
+
+        return (bool) file_put_contents($path.$file_name, $this->getBody());
     }
 
     /**
-     * Parse Parts
+     * Parse Parts.
      *
-     * @return boolean
+     * @return bool
      */
     protected function parseParts()
     {
-        if( (count($this->attachment) > 2) ){
+        if ((\count($this->attachment) > 2)) {
             return true;
         }
 
@@ -223,19 +228,19 @@ class Attachment
         $this->attachment['ifdparameters'] = (isset($this->part->ifdparameters)) ? $this->part->ifdparameters : false;
         $this->attachment['ifparameters'] = (isset($this->part->ifparameters)) ? $this->part->ifparameters : false;
 
-        if( is_array($this->part->dparameters) ){
+        if (\is_array($this->part->dparameters)) {
             foreach ($this->part->dparameters as $obj) {
-                if( in_array(strtolower($obj->attribute), ['filename', 'name']) ){
-                    $this->attachment[strtolower($obj->attribute)] = pathinfo($obj->value, PATHINFO_FILENAME);
+                if (\in_array(mb_strtolower($obj->attribute), ['filename', 'name'], true)) {
+                    $this->attachment[mb_strtolower($obj->attribute)] = pathinfo($obj->value, PATHINFO_FILENAME);
                     $this->attachment['extension'] = pathinfo($obj->value, PATHINFO_EXTENSION);
                 }
             }
         }
 
-        if( is_array($this->part->parameters) ){
+        if (\is_array($this->part->parameters)) {
             foreach ($this->part->parameters as $obj) {
-                if( in_array(strtolower($obj->attribute), ['filename', 'name']) ){
-                    $this->attachment[strtolower($obj->attribute)] = pathinfo($obj->value, PATHINFO_FILENAME);
+                if (\in_array(mb_strtolower($obj->attribute), ['filename', 'name'], true)) {
+                    $this->attachment[mb_strtolower($obj->attribute)] = pathinfo($obj->value, PATHINFO_FILENAME);
                     $this->attachment['extension'] = pathinfo($obj->value, PATHINFO_EXTENSION);
                 }
             }

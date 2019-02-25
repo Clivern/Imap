@@ -1,6 +1,8 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core\Message;
@@ -8,25 +10,22 @@ namespace Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 
 /**
- * Header Class
- *
- * @package Clivern\Imap\Core\Message
+ * Header Class.
  */
 class Header
 {
-
     /**
      * @var Connection
      */
     protected $connection;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_number;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_uid;
 
@@ -35,9 +34,8 @@ class Header
      */
     protected $header = [];
 
-
     /**
-     * Class Constructor
+     * Class Constructor.
      *
      * @param Connection $connection
      */
@@ -47,15 +45,17 @@ class Header
     }
 
     /**
-     * Config Message
+     * Config Message.
      *
-     * @param integer $message_number
-     * @param integer $message_uid
+     * @param int   $message_number
+     * @param int   $message_uid
+     * @param mixed $options
+     *
      * @return Header
      */
     public function config($message_number, $message_uid, $options = 0)
     {
-        if( !empty($this->header) ){
+        if (!empty($this->header)) {
             return $this;
         }
 
@@ -67,37 +67,41 @@ class Header
     }
 
     /**
-     * Get From Header
+     * Get From Header.
      *
-     * @param  string  $key
-     * @param  boolean $default
+     * @param string $key
+     * @param bool   $default
+     *
      * @return mixed
      */
     public function get($key, $default = false)
     {
-        return (isset($this->header[strtolower($key)])) ? $this->header[strtolower($key)] : $default;
+        return (isset($this->header[mb_strtolower($key)])) ? $this->header[mb_strtolower($key)] : $default;
     }
 
     /**
-     * Check if header has key
+     * Check if header has key.
      *
-     * @param  string  $key
-     * @return boolean
+     * @param string $key
+     *
+     * @return bool
      */
     public function has($key)
     {
-        return (isset($this->header[strtolower($key)]));
+        return isset($this->header[mb_strtolower($key)]);
     }
 
     /**
-     * Parse Address List
+     * Parse Address List.
      *
      * @param string $address_string
+     * @param mixed  $default_host
+     *
      * @return array
      */
-    public function parseAddressList($address_string, $default_host = "example.com")
+    public function parseAddressList($address_string, $default_host = 'example.com')
     {
-        $address_array  = imap_rfc822_parse_adrlist($address_string, $default_host);
+        $address_array = imap_rfc822_parse_adrlist($address_string, $default_host);
         $address_list = [];
 
         foreach ($address_array as $id => $val) {
@@ -105,7 +109,7 @@ class Header
                 'mailbox' => $val->mailbox,
                 'host' => $val->host,
                 'personal' => $val->personal,
-                'adl' => $val->adl
+                'adl' => $val->adl,
             ];
         }
 
@@ -113,9 +117,10 @@ class Header
     }
 
     /**
-     * Load Header Data
+     * Load Header Data.
      *
      * @param mixed $options
+     *
      * @return Header
      */
     protected function load($options = 0)
@@ -129,7 +134,8 @@ class Header
             $this->header['date'] = (isset($item_overview->date)) ? $item_overview->date : false;
             $this->header['message_id'] = (isset($item_overview->message_id)) ? $item_overview->message_id : false;
             $this->header['in_reply_to'] = (isset($item_overview->in_reply_to)) ? $item_overview->in_reply_to : false;
-            $this->header['references'] = (isset($item_overview->references)) ? explode(" ", $item_overview->references) : false;
+            $this->header['references'] = (isset($item_overview->references)) ?
+                explode(' ', $item_overview->references) : false;
             $this->header['size'] = (isset($item_overview->size)) ? $item_overview->size : false;
             $this->header['uid'] = (isset($item_overview->uid)) ? $item_overview->uid : false;
             $this->header['msgno'] = (isset($item_overview->msgno)) ? $item_overview->msgno : false;

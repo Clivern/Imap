@@ -1,6 +1,8 @@
 <?php
-/**
- * @author clivern <hello@clivern.com>
+
+/*
+ * This file is part of the Imap PHP package.
+ * (c) Clivern <hello@clivern.com>
  */
 
 namespace Clivern\Imap\Core\Message;
@@ -8,31 +10,27 @@ namespace Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Connection;
 
 /**
- * Action Class
- *
- * @package Clivern\Imap\Core\Message
+ * Action Class.
  */
 class Action
 {
-
     /**
      * @var Connection
      */
     protected $connection;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_number;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $message_uid;
 
-
     /**
-     * Class Constructor
+     * Class Constructor.
      *
      * @param Connection $connection
      */
@@ -42,10 +40,11 @@ class Action
     }
 
     /**
-     * Config Message
+     * Config Message.
      *
-     * @param integer $message_number
-     * @param integer $message_uid
+     * @param int $message_number
+     * @param int $message_uid
+     *
      * @return Action
      */
     public function config($message_number, $message_uid)
@@ -57,22 +56,22 @@ class Action
     }
 
     /**
-     * Delete Message
+     * Delete Message.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete()
     {
-        return (boolean) imap_delete($this->connection->getStream(), $this->message_uid, \FT_UID);
+        return (bool) imap_delete($this->connection->getStream(), $this->message_uid, \FT_UID);
     }
 
     /**
-     * Undelete Message
+     * Undelete Message.
      *
-     * @return boolean
+     * @return bool
      */
     public function undelete()
     {
-        return (boolean) imap_undelete($this->connection->getStream(), $this->message_uid, \FT_UID);
+        return (bool) imap_undelete($this->connection->getStream(), $this->message_uid, \FT_UID);
     }
 }
