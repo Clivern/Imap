@@ -80,7 +80,7 @@ class Body
 
         $structure = imap_fetchstructure($this->connection->getStream(), $this->message_number);
 
-        if(isset($structure->parts) && is_array($structure->parts) && isset($structure->parts[1])) {
+        if (isset($structure->parts) && is_array($structure->parts) && isset($structure->parts[1])) {
             $part = $structure->parts[1];
             $this->message = imap_fetchbody($this->connection->getStream(),$this->message_number , $option);
 
@@ -94,9 +94,8 @@ class Body
             } else {
                 $this->message = imap_qprint($this->message);
             }
-        }
-        else {
-            $this->message = imap_body($this->connection->getStream(),$this->message_number , $option);
+        } else {
+            $this->message = imap_body($this->connection->getStream(), $this->message_number, $option);
         }
 
         return $this->message;
