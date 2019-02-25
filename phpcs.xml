@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="MessageBirdCodingStandard">
+<ruleset name="ImapCodingStandard">
     <description>Imap coding standard.</description>
     <file>src</file>
     <file>tests</file>
