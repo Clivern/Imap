@@ -84,6 +84,7 @@ class Body
             $part = $structure->parts[1];
             $this->message = imap_fetchbody($this->connection->getStream(),$this->message_number , $option);
 
+
             $this->encoding = $part->encoding;
 
             if($part->encoding == 3) {
@@ -93,6 +94,9 @@ class Body
             } else {
                 $this->message = imap_qprint($this->message);
             }
+        }
+        else {
+            $this->message = imap_body($this->connection->getStream(),$this->message_number , $option);
         }
 
         return $this->message;
