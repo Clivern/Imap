@@ -54,8 +54,6 @@ class Message
 
     /**
      * Message Constructor.
-     *
-     * @param Connection $connection
      */
     public function __construct(Connection $connection, Header $header, Action $action, Body $body)
     {
