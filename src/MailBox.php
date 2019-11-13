@@ -11,7 +11,7 @@ use Clivern\Imap\Core\Connection;
 use Clivern\Imap\Core\Exception\FolderNotExistException;
 use Clivern\Imap\Core\Message;
 use Clivern\Imap\Core\Message\Action;
-use Clivern\Imap\Core\Message\Attachments;
+use Clivern\Imap\Core\Message\Attachment;
 use Clivern\Imap\Core\Message\Body;
 use Clivern\Imap\Core\Message\Header;
 use Clivern\Imap\Core\MessageIterator;
@@ -124,7 +124,7 @@ class MailBox
             $this->connection,
             new Header($this->connection),
             new Action($this->connection),
-            new Attachments($this->connection),
+            new Attachment($this->connection),
             new Body($this->connection)
         );
 

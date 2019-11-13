@@ -2,7 +2,7 @@ Imap
 ====
 :mailbox_with_mail: Access Mailbox Using PHP IMAP.
 
-*Current Version: 1.0.5*
+*Current Version: 1.0.6*
 
 [![Build Status](https://travis-ci.org/Clivern/Imap.svg?branch=master)](https://travis-ci.org/Clivern/Imap)
 
@@ -265,6 +265,11 @@ Misc
 
 Changelog
 ---------
+Version 1.0.6:
+```
+Fix Class Name.
+```
+
 Version 1.0.5:
 ```
 Enhance code style.
@@ -299,6 +304,6 @@ Initial Release.
 Acknowledgements
 ----------------
 
-© 2017, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+© 2019, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
 **Imap** is authored and maintained by [@clivern](http://github.com/clivern).

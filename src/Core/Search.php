@@ -32,8 +32,6 @@ class Search
     /**
      * Add Condition.
      *
-     * @param Condition $condition
-     *
      * @return Search
      */
     public function addCondition(Condition $condition)

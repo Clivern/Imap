@@ -23,9 +23,6 @@ class MessageIterator extends \ArrayIterator
 
     /**
      * Constructor.
-     *
-     * @param Connection $connection
-     * @param array      $message_numbers
      */
     public function __construct(Connection $connection, array $message_numbers)
     {

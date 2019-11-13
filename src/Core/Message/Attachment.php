@@ -41,8 +41,6 @@ class Attachment
 
     /**
      * Class Constructor.
-     *
-     * @param Connection $connection
      */
     public function __construct(Connection $connection)
     {
