@@ -1,0 +1,97 @@
+repo_name: Clivern/Imap
+report_id: b15b17a2f3d584eff2b24863f6f7e87d
+version: 0.1
+repo_type: Public
+timestamp: '2024-02-29T19:08:20+00:00'
+requested_by: renovate[bot]
+provider: github
+branch: master
+detected_tools_count: 7
+tools:
+- name: PHP
+  description: A popular general-purpose scripting language that is especially suited
+    to web development
+  website_url: http://www.php.net/
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/991/hwUcGZ41_400x400.jpg
+  detection_source_url: https://github.com/Clivern/Imap
+  detection_source: Repo Metadata
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/Clivern/Imap
+  detection_source: Repo Metadata
+- name: PHPUnit
+  description: Testing framework for PHP
+  website_url: https://phpunit.de/
+  version: 5.7.27
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/1616/1_WsEnddd5Y4EgEHsT054kUQ.jpeg
+  detection_source_url: https://github.com/Clivern/Imap/blob/master/composer.lock
+  detection_source: composer.json
+  last_updated_by: Clivern
+  last_updated_on: 2017-08-08 11:03:22.000000000 Z
+- name: Travis CI
+  description: A hosted continuous integration service for open source and private
+    projects
+  website_url: http://travis-ci.com/
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/460/Lu6cGu0z_400x400.png
+  detection_source_url: https://github.com/Clivern/Imap/blob/master/.travis.yml
+  detection_source: ".travis.yml"
+  last_updated_by: Clivern
+  last_updated_on: 2017-08-08 11:03:22.000000000 Z
+- name: friendsofphp/php-cs-fixer
+  description: A tool to automatically fix PHP code style
+  package_url: https://packagist.org/friendsofphp/php-cs-fixer
+  version: 2.19.3
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/Clivern/Imap/blob/master/composer.lock
+  detection_source: composer.json
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-01-09 15:34:20.000000000 Z
+- name: phpunit/phpunit
+  description: The PHP Unit Testing framework
+  package_url: https://packagist.org/phpunit/phpunit
+  version: 5.7.27
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/Clivern/Imap/blob/master/composer.lock
+  detection_source: composer.json
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-01-09 15:34:20.000000000 Z
+- name: squizlabs/php_codesniffer
+  description: PHP_CodeSniffer tokenizes PHP
+  package_url: https://packagist.org/squizlabs/php_codesniffer
+  version: 3.7.1
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/Clivern/Imap/blob/master/composer.lock
+  detection_source: composer.json
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-01-09 15:34:20.000000000 Z
